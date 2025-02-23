@@ -1,0 +1,38 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+
+export default function TodoList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: "Сделать задание по React", completed: false },
+    { id: 2, text: "Задеплоить проект", completed: false },
+    { id: 3, text: "Поделиться ссылкой", completed: false },
+  ]);
+
+  const toggleTask = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  return (
+    <div className="p-6 max-w-md mx-auto">
+      <h1 className="text-xl font-bold mb-4">Список задач</h1>
+      {tasks.map((task) => (
+        <Card key={task.id} className="mb-2 flex items-center p-4">
+          <Checkbox
+            checked={task.completed}
+            onCheckedChange={() => toggleTask(task.id)}
+            className="mr-4"
+          />
+          <CardContent className={`flex-1 ${task.completed ? "line-through" : ""}`}>
+            {task.text}
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
